@@ -12,7 +12,10 @@ namespace VirtoCommerce.Payment.CCAvenue
             Code = "CCAvenue";
         }
 
+        // Hosted form flow (redirect to CCAvenue)
         public override PaymentMethodType PaymentMethodType => PaymentMethodType.PreparedForm;
+
+        // Grouped under bank card payments
         public override PaymentMethodGroupType PaymentMethodGroupType => PaymentMethodGroupType.BankCard;
     }
 }
