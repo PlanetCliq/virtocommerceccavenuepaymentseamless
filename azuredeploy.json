@@ -1,0 +1,157 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceGroupName": {
+      "type": "string",
+      "defaultValue": "virto-ccavenue-rg"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "Central India"
+    },
+    "appServicePlanName": {
+      "type": "string",
+      "defaultValue": "virto-ccavenue-plan"
+    },
+    "sqlServerName": {
+      "type": "string",
+      "defaultValue": "virto-ccavenue-sql"
+    },
+    "sqlDatabaseName": {
+      "type": "string",
+      "defaultValue": "VirtoCommerce"
+    },
+    "sqlAdminLogin": {
+      "type": "string",
+      "defaultValue": "vcadmin"
+    },
+    "sqlAdminPassword": {
+      "type": "securestring",
+      "defaultValue": "Adm1n!Virto2026"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "virtostorage2026"
+    },
+    "searchServiceName": {
+      "type": "string",
+      "defaultValue": "virto-search"
+    },
+    "redisCacheName": {
+      "type": "string",
+      "defaultValue": "virto-redis"
+    },
+    "adminEmail": {
+      "type": "string",
+      "defaultValue": "admin@yourdomain.com"
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "defaultValue": "Adm1n!Virto2026"
+    },
+    "merchantId": {
+      "type": "string",
+      "defaultValue": "YOUR_MERCHANT_ID"
+    },
+    "workingKey": {
+      "type": "securestring",
+      "defaultValue": "YOUR_32CHAR_WORKING_KEY"
+    },
+    "accessCode": {
+      "type": "string",
+      "defaultValue": "YOUR_ACCESS_CODE"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-03-01",
+      "name": "[parameters('appServicePlanName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "S1",
+        "tier": "Standard"
+      },
+      "properties": {
+        "reserved": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-03-01",
+      "name": "[concat(parameters('appServicePlanName'), '-site')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+        "siteConfig": {
+          "appSettings": [
+            { "name": "Payment:CCAvenue:MerchantId", "value": "[parameters('merchantId')]" },
+            { "name": "Payment:CCAvenue:WorkingKey", "value": "[parameters('workingKey')]" },
+            { "name": "Payment:CCAvenue:AccessCode", "value": "[parameters('accessCode')]" },
+            { "name": "AdminEmail", "value": "[parameters('adminEmail')]" },
+            { "name": "AdminPassword", "value": "[parameters('adminPassword')]" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2022-05-01-preview",
+      "name": "[parameters('sqlServerName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "administratorLogin": "[parameters('sqlAdminLogin')]",
+        "administratorLoginPassword": "[parameters('sqlAdminPassword')]"
+      },
+      "resources": [
+        {
+          "type": "databases",
+          "name": "[parameters('sqlDatabaseName')]",
+          "apiVersion": "2022-05-01-preview",
+          "location": "[parameters('location')]",
+          "sku": {
+            "name": "S0",
+            "tier": "Standard"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2022-09-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2"
+    },
+    {
+      "type": "Microsoft.Search/searchServices",
+      "apiVersion": "2022-09-01",
+      "name": "[parameters('searchServiceName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "basic"
+      },
+      "properties": {
+        "hostingMode": "default"
+      }
+    },
+    {
+      "type": "Microsoft.Cache/Redis",
+      "apiVersion": "2022-06-01",
+      "name": "[parameters('redisCacheName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "C1",
+        "family": "C",
+        "capacity": 1
+      },
+      "properties": {
+        "enableNonSslPort": false
+      }
+    }
+  ]
+}
