@@ -2,6 +2,8 @@
   "dashboard": {
     "title": "CCAvenue Pincode Serviceability",
     "tags": ["ccavenue", "pincode", "serviceability"],
+    "schemaVersion": 36,
+    "version": 2,
     "panels": [
       {
         "id": 1,
@@ -11,7 +13,10 @@
         "targets": [
           { "expr": "ccavenue_pincode_api_success_total", "legendFormat": "API Success", "refId": "A" },
           { "expr": "ccavenue_pincode_api_failure_total", "legendFormat": "API Failure", "refId": "B" }
-        ]
+        ],
+        "fieldConfig": {
+          "defaults": { "color": { "mode": "palette-classic" } }
+        }
       },
       {
         "id": 2,
@@ -20,7 +25,10 @@
         "datasource": "Prometheus",
         "targets": [
           { "expr": "ccavenue_pincode_fallback_success_total", "legendFormat": "Fallback Success", "refId": "C" }
-        ]
+        ],
+        "fieldConfig": {
+          "defaults": { "color": { "mode": "continuous-GrYlRd" } }
+        }
       },
       {
         "id": 3,
@@ -32,9 +40,52 @@
           { "expr": "ccavenue_pincode_api_failure_total", "legendFormat": "API Failure", "refId": "B" },
           { "expr": "ccavenue_pincode_fallback_success_total", "legendFormat": "Fallback Success", "refId": "C" }
         ]
+      },
+      {
+        "id": 4,
+        "title": "API Latency Histogram",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(ccavenue_pincode_api_latency_bucket[5m])) by (le))",
+            "legendFormat": "p95 latency",
+            "refId": "D"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(ccavenue_pincode_api_latency_bucket[5m])) by (le))",
+            "legendFormat": "p99 latency",
+            "refId": "E"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Total Pincodes Checked",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          { "expr": "ccavenue_pincode_checked_total", "legendFormat": "Total Checked", "refId": "F" }
+        ]
       }
     ],
-    "schemaVersion": 36,
-    "version": 1
+    "alerting": {
+      "alertRules": [
+        {
+          "uid": "alert-api-failure-rate",
+          "title": "High API Failure Rate",
+          "condition": "WHEN avg() OF query(B, 5m, now) > 20",
+          "datasource": "Prometheus",
+          "message": "API failure rate exceeded 20% in the last 5 minutes"
+        },
+        {
+          "uid": "alert-latency-p95",
+          "title": "High API Latency (p95)",
+          "condition": "WHEN avg() OF query(D, 5m, now) > 2",
+          "datasource": "Prometheus",
+          "message": "API latency p95 exceeded 2 seconds"
+        }
+      ]
+    }
   }
 }
