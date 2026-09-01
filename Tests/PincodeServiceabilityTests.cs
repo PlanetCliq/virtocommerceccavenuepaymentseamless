@@ -15,7 +15,7 @@ namespace VirtoCommerce.Payment.CCAvenue.Tests
         [Fact]
         public async Task CourierApi_ShouldReturnServiceable()
         {
-            // Arrange: mock courier API response
+            // Arrange
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
@@ -38,9 +38,34 @@ namespace VirtoCommerce.Payment.CCAvenue.Tests
         }
 
         [Fact]
+        public async Task CourierApi_ShouldReturnNotServiceable()
+        {
+            // Arrange
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"serviceable\":false}")
+                });
+
+            var httpClient = new HttpClient(handlerMock.Object);
+            var courierApi = new MockCourierApi(httpClient);
+
+            // Act
+            var result = await courierApi.CheckPincodeAsync("999999");
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
         public async Task CourierApi_ShouldFallbackToLocalFile_WhenApiFails()
         {
-            // Arrange: simulate API failure
+            // Arrange
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
@@ -51,7 +76,6 @@ namespace VirtoCommerce.Payment.CCAvenue.Tests
             var httpClient = new HttpClient(handlerMock.Object);
             var courierApi = new MockCourierApi(httpClient);
 
-            // Local fallback
             var fallbackValidator = new PincodeValidator();
 
             // Act
