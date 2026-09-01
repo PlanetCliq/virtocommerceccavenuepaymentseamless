@@ -22,6 +22,3 @@
 1. Clone into `Modules/` directory of your VirtoCommerce installation:
    ```bash
    git clone https://github.com/dravasp/virtocommerceccavenuepaymentseamless Modules/VirtoCommerce.CCAvenue
-
-dotnet restore
-dotnet build
