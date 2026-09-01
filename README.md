@@ -166,6 +166,8 @@ Use the CLI to store sensitive values:
 Run the following command in Azure CLI
 
 ```
+
+```
 az ad sp create-for-rbac \
   --name "github-actions-sp" \
   --role contributor \
@@ -173,7 +175,8 @@ az ad sp create-for-rbac \
   --sdk-auth
 ```
 
-to generate AZURE_CREDENTIALS that is to be stored at https://github.com/username/repositoryname/settings/secrets/actions/AZURE_CREDENTIALS
+`to generate AZURE_CREDENTIALS that is to be stored at https://github.com/username/repositoryname/settings/secrets/actions/AZURE_CREDENTIALS`
+
 ```
 {
   "clientId": "11111111-2222-3333-4444-555555555555",
@@ -193,7 +196,7 @@ to generate AZURE_CREDENTIALS that is to be stored at https://github.com/usernam
 az account show --query id --output tsv
 ```
 
-to generate AZURE_SUBSCRIPTION_ID that is to be stored at https://github.com/username/repositoryname/settings/secrets/actions/AZURE_SUBSCRIPTION_ID
+`to generate AZURE_SUBSCRIPTION_ID that is to be stored at https://github.com/username/repositoryname/settings/secrets/actions/AZURE_SUBSCRIPTION_ID`
 
 ```
 Name                                     CloudName    SubscriptionId                        State    IsDefault
@@ -202,6 +205,7 @@ Pay-As-You-Go                           AzureCloud   66666666-7777-8888-9999-000
 
 ```
 
+```
 dotnet user-secrets set "Payment:CCAvenue:MerchantId" "YOUR_MERCHANT_ID"
 dotnet user-secrets set "Payment:CCAvenue:WorkingKey" "YOUR_32CHAR_WORKING_KEY"
 dotnet user-secrets set "Payment:CCAvenue:AccessCode" "YOUR_ACCESS_CODE"
@@ -209,6 +213,7 @@ dotnet user-secrets set "Payment:CCAvenue:AccessCode" "YOUR_ACCESS_CODE"
 
 ```
 ## Step 3: Bind in Program.cs
+
 builder.Services.Configure<CCAvenueOptions>(
 builder.Configuration.GetSection("Payment:CCAvenue"));
 
@@ -217,15 +222,20 @@ builder.Configuration.GetSection("Payment:CCAvenue"));
 If you have already generated your credentials then you can use Github CLI express commands by replacing the values
 
 # Set CCAvenue secrets
+```
 gh secret set Payment__CCAvenue__MerchantId --body "YOUR_MERCHANT_ID"
 gh secret set Payment__CCAvenue__WorkingKey --body "YOUR_32CHAR_WORKING_KEY"
 gh secret set Payment__CCAvenue__AccessCode --body "YOUR_ACCESS_CODE"
+```
 
 # Set Azure secrets
+```
 gh secret set AZURE_SUBSCRIPTION_ID --body "66666666-7777-8888-9999-000000000000"
 gh secret set AZURE_RESOURCE_GROUP --body "virto-ccavenue-rg"
+```
 
 # Set Azure credentials JSON (from az ad sp create-for-rbac --sdk-auth)
+```
 gh secret set AZURE_CREDENTIALS --body '{
   "clientId": "11111111-2222-3333-4444-555555555555",
   "clientSecret": "abcdEFGHijklMNOPqrstUVWXyz123456",
@@ -238,9 +248,9 @@ gh secret set AZURE_CREDENTIALS --body '{
   "galleryEndpointUrl": "https://gallery.azure.com/",
   "managementEndpointUrl": "https://management.core.windows.net/"
 }'
+```
 
-
-To save Repository Variables >> https://github.com//settings/secrets/actions >> New Secret > New Repository Secret >>
+`To save Repository Variables >> https://github.com//settings/secrets/actions >> New Secret > New Repository Secret >>`
 
 ```
 AZURE_CREDENTIALS →
@@ -252,7 +262,7 @@ PAYMENT__CCAVENUE__WORKINGKEY →
 ```
 
 
-To save Repository Variables >> https://github.com//settings/secrets/actions >> New Variable > New Repository Variable >>
+`To save Repository Variables >> https://github.com//settings/secrets/actions >> New Variable > New Repository Variable >>`
 
 ```
 Payment__CCAvenue__Currency → "INR"
