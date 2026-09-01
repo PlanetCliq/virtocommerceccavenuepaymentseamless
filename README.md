@@ -86,11 +86,12 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 ```
 
 ```
-virtocommerceccavenuepaymentseamless/
+Modules/VirtoCommerce.CCAvenue/
  ├── Controllers/
  │   ├── CCAvenueController.cs
  │   ├── SuccessController.cs
  │   ├── FailureController.cs
+ │   ├── CheckoutController.cs
  │   └── WebhookController.cs
  │
  ├── Services/
