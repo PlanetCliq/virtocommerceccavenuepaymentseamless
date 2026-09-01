@@ -6,6 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+<!-- NuGet metadata -->
+    <PackageId>VirtoCommerce.Payment.CCAvenue</PackageId>
+    <Authors>Dravasp Shroff</Authors>
+    <Company>WE SKY PRINT LLP</Company>
+    <Description>CCAvenue payment integration for VirtoCommerce.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/virtocommerceccavenuepaymentseamless</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/virtocommerceccavenuepaymentseamless</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
   <ItemGroup>
     <!-- VirtoCommerce core packages -->
     <PackageReference Include="VirtoCommerce.Payment" Version="3.800.0" />
@@ -47,5 +57,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Data/pincodes.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed LICENSE file into NuGet package -->
+    <None Include="LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
