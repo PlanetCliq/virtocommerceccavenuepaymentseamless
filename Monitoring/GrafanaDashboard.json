@@ -1,0 +1,40 @@
+{
+  "dashboard": {
+    "title": "CCAvenue Pincode Serviceability",
+    "tags": ["ccavenue", "pincode", "serviceability"],
+    "panels": [
+      {
+        "id": 1,
+        "title": "API Success vs Failure",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          { "expr": "ccavenue_pincode_api_success_total", "legendFormat": "API Success", "refId": "A" },
+          { "expr": "ccavenue_pincode_api_failure_total", "legendFormat": "API Failure", "refId": "B" }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Fallback Success",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          { "expr": "ccavenue_pincode_fallback_success_total", "legendFormat": "Fallback Success", "refId": "C" }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "API vs Fallback Pie Chart",
+        "type": "piechart",
+        "datasource": "Prometheus",
+        "targets": [
+          { "expr": "ccavenue_pincode_api_success_total", "legendFormat": "API Success", "refId": "A" },
+          { "expr": "ccavenue_pincode_api_failure_total", "legendFormat": "API Failure", "refId": "B" },
+          { "expr": "ccavenue_pincode_fallback_success_total", "legendFormat": "Fallback Success", "refId": "C" }
+        ]
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1
+  }
+}
