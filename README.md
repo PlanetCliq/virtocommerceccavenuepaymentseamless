@@ -234,7 +234,9 @@ gh secret set AZURE_SUBSCRIPTION_ID --body "66666666-7777-8888-9999-000000000000
 gh secret set AZURE_RESOURCE_GROUP --body "virto-ccavenue-rg"
 ```
 
-# Set Azure credentials JSON (from az ad sp create-for-rbac --sdk-auth)
+# Set Azure credentials
+`Copy output as referenced via CLI -  JSON (from az ad sp create-for-rbac --sdk-auth)`
+
 ```
 gh secret set AZURE_CREDENTIALS --body '{
   "clientId": "11111111-2222-3333-4444-555555555555",
