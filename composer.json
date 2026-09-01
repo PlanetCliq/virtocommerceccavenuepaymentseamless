@@ -1,0 +1,51 @@
+{
+  "name": "virtocommerce/payment-ccavenue",
+  "description": "VirtoCommerce Payment Gateway integration for CCAvenue with extended enforcement and observability",
+  "version": "1.0.0",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=8.2",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "guzzlehttp/guzzle": "^7.8",
+    "monolog/monolog": "^3.6",
+    "symfony/validator": "^7.0",
+    "symfony/yaml": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0",
+    "mockery/mockery": "^1.6"
+  },
+  "keywords": [
+    "ccavenue",
+    "virto commerce",
+    "payment gateway",
+    "secure payments",
+    "rupay",
+    "upi",
+    "netbanking",
+    "wallets",
+    "emi",
+    "india uae usa ksa"
+  ],
+  "authors": [
+    {
+      "name": "Sentinnel One",
+      "homepage": "https://dashboard.ccavenue.com/web/genregistration.do?command=navigateGenericRegistration&reseller=CCAV",
+      "role": "Contributor"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/VirtoCommerce/vc-module-payment-ccavenue",
+    "issues": "https://github.com/VirtoCommerce/vc-module-payment-ccavenue/issues",
+    "docs": "https://virtocommerce.com/docs/latest/modules/payment"
+  },
+  "homepage": "https://virtocommerce.com/",
+  "autoload": {
+    "psr-4": {
+      "VirtoCommerce\\Payment\\CCAvenue\\": "src/"
+    }
+  }
+}
