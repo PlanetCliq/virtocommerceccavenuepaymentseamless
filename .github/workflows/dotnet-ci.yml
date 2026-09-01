@@ -1,0 +1,41 @@
+name: .NET CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout repo
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Setup .NET
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    # 3. Restore dependencies
+    - name: Restore dependencies
+      run: dotnet restore VirtoCommerce.Payment.CCAvenue.csproj
+
+    # 4. Build
+    - name: Build
+      run: dotnet build VirtoCommerce.Payment.CCAvenue.csproj --no-restore --configuration Release
+
+    # 5. Run Unit Tests
+    - name: Run tests
+      run: dotnet test Modules/VirtoCommerce.CCAvenue/Tests --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+
+    # 6. Upload Coverage Report
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: Modules/VirtoCommerce.CCAvenue/Tests/coverage.info
