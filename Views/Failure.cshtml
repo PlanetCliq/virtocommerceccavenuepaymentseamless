@@ -1,0 +1,63 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Payment Failed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ff1744, #ff8a80);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            animation: fadeIn 1.2s ease-in-out;
+        }
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #fff;
+            animation: shake 1.2s infinite;
+        }
+        h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        p {
+            margin-top: 12px;
+            font-size: 1.1rem;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">❌</div>
+        <h2>Payment Failed</h2>
+        <p>There was an issue processing your payment. Please try again or contact support.</p>
+    </div>
+</body>
+</html>
