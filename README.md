@@ -160,7 +160,48 @@ This is part of the Secret Manager tool that stores configuration securely durin
 
 ```
 ## Step 2: Add secrets
+
+
 Use the CLI to store sensitive values:
+Run the following command in Azure CLI
+
+```
+az ad sp create-for-rbac \
+  --name "github-actions-sp" \
+  --role contributor \
+  --scopes /subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/<YOUR_RESOURCE_GROUP> \
+  --sdk-auth
+```
+
+to generate AZURE_CREDENTIALS that is to be stored at https://github.com/username/repositoryname/settings/secrets/actions/AZURE_CREDENTIALS
+```
+{
+  "clientId": "11111111-2222-3333-4444-555555555555",
+  "clientSecret": "abcdEFGHijklMNOPqrstUVWXyz123456",
+  "subscriptionId": "66666666-7777-8888-9999-000000000000",
+  "tenantId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+```
+
+```
+az account show --query id --output tsv
+```
+
+to generate AZURE_SUBSCRIPTION_ID that is to be stored at https://github.com/username/repositoryname/settings/secrets/actions/AZURE_SUBSCRIPTION_ID
+
+```
+Name                                     CloudName    SubscriptionId                        State    IsDefault
+--------------------------------------- -----------  ------------------------------------   -------  ----------
+Pay-As-You-Go                           AzureCloud   66666666-7777-8888-9999-000000000000   Enabled  True
+
+```
+
 dotnet user-secrets set "Payment:CCAvenue:MerchantId" "YOUR_MERCHANT_ID"
 dotnet user-secrets set "Payment:CCAvenue:WorkingKey" "YOUR_32CHAR_WORKING_KEY"
 dotnet user-secrets set "Payment:CCAvenue:AccessCode" "YOUR_ACCESS_CODE"
@@ -171,4 +212,54 @@ dotnet user-secrets set "Payment:CCAvenue:AccessCode" "YOUR_ACCESS_CODE"
 builder.Services.Configure<CCAvenueOptions>(
 builder.Configuration.GetSection("Payment:CCAvenue"));
 
+```
+
+If you have already generated your credentials then you can use Github CLI express commands by replacing the values
+
+# Set CCAvenue secrets
+gh secret set Payment__CCAvenue__MerchantId --body "YOUR_MERCHANT_ID"
+gh secret set Payment__CCAvenue__WorkingKey --body "YOUR_32CHAR_WORKING_KEY"
+gh secret set Payment__CCAvenue__AccessCode --body "YOUR_ACCESS_CODE"
+
+# Set Azure secrets
+gh secret set AZURE_SUBSCRIPTION_ID --body "66666666-7777-8888-9999-000000000000"
+gh secret set AZURE_RESOURCE_GROUP --body "virto-ccavenue-rg"
+
+# Set Azure credentials JSON (from az ad sp create-for-rbac --sdk-auth)
+gh secret set AZURE_CREDENTIALS --body '{
+  "clientId": "11111111-2222-3333-4444-555555555555",
+  "clientSecret": "abcdEFGHijklMNOPqrstUVWXyz123456",
+  "subscriptionId": "66666666-7777-8888-9999-000000000000",
+  "tenantId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}'
+
+
+To save Repository Variables >> https://github.com//settings/secrets/actions >> New Secret > New Repository Secret >>
+
+```
+AZURE_CREDENTIALS →
+AZURE_RESOURCE_GROUP →
+AZURE_SUBSCRIPTION_ID →
+PAYMENT__CCAVENUE__ACCESSCODE →
+PAYMENT__CCAVENUE__MERCHANTID →
+PAYMENT__CCAVENUE__WORKINGKEY →
+```
+
+
+To save Repository Variables >> https://github.com//settings/secrets/actions >> New Variable > New Repository Variable >>
+
+```
+Payment__CCAvenue__Currency → "INR"
+Payment__CCAvenue__RedirectUrl → "https://domainrequired.com/payment/success"
+Payment__CCAvenue__CancelUrl → "https://domainrequired.com/payment/failure"
+Payment__CCAvenue__IsTestMode → "false" (or "true" in localhost)
+AZURE_RESOURCE_GROUP → "virto-ccavenue-rg" (matches your ARM template)
+AZURE_WEBAPP_NAME → "virto-ccavenue-plan-site" (your App Service name)
+AZURE_PLAN_NAME → "virto-ccavenue-plan" (your App Service plan name)
 ```
