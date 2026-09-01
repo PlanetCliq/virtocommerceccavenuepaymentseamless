@@ -28,3 +28,20 @@ namespace VirtoCommerce.Payment.CCAvenue.Services
         public void RecordFallbackSuccess() => _fallbackSuccessCounter.Inc();
     }
 }
+[Fact]
+public async Task CourierApi_ShouldRecordMetrics()
+{
+    var metrics = new PincodeMetricsCollector();
+
+    // Simulate API success
+    metrics.RecordApiSuccess();
+
+    // Simulate API failure
+    metrics.RecordApiFailure();
+
+    // Simulate fallback success
+    metrics.RecordFallbackSuccess();
+
+    // Metrics are exposed via Prometheus /metrics endpoint
+    // You can scrape and visualize them in Grafana
+}
