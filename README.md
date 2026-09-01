@@ -22,3 +22,28 @@
 1. Clone into `Modules/` directory of your VirtoCommerce installation:
    ```bash
    git clone https://github.com/dravasp/virtocommerceccavenuepaymentseamless Modules/VirtoCommerce.CCAvenue
+
+
+
+To keep sensitive values like your **CCAvenue MerchantId, WorkingKey, and AccessCode** out of `appsettings.json`,
+you can use **`secrets.json`** in .NET
+
+# Using secrets.json in .NET
+
+## Step 1: Initialize Secret Manager
+Run this command in your project directory:
+```bash
+dotnet user-secrets init
+
+This is part of the Secret Manager tool that stores configuration securely during development.
+
+## Step 2: Add secrets
+Use the CLI to store sensitive values:
+dotnet user-secrets set "Payment:CCAvenue:MerchantId" "YOUR_MERCHANT_ID"
+dotnet user-secrets set "Payment:CCAvenue:WorkingKey" "YOUR_32CHAR_WORKING_KEY"
+dotnet user-secrets set "Payment:CCAvenue:AccessCode" "YOUR_ACCESS_CODE"
+
+## Step 3: Bind in Program.cs
+builder.Services.Configure<CCAvenueOptions>(
+builder.Configuration.GetSection("Payment:CCAvenue"));
+
