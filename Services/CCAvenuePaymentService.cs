@@ -1,52 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using Polly;
+using Microsoft.Extensions.Options;
 
 namespace VirtoCommerce.Payment.CCAvenue.Services
 {
     public class CCAvenuePaymentService
     {
-        private readonly IConfiguration _config;
+        private readonly CCAvenueOptions _options;
         private readonly PincodeValidator _pincodeValidator;
         private readonly CCAvenueChecksumValidator _checksumValidator;
         private readonly CCAvenueTimestampValidator _timestampValidator;
 
         public CCAvenuePaymentService(
-            IConfiguration config,
+            IOptions<CCAvenueOptions> options,
             PincodeValidator pincodeValidator,
             CCAvenueChecksumValidator checksumValidator,
             CCAvenueTimestampValidator timestampValidator)
         {
-            _config = config;
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options));
             _pincodeValidator = pincodeValidator;
             _checksumValidator = checksumValidator;
             _timestampValidator = timestampValidator;
         }
 
-        public string BuildEncryptedRequest(Dictionary<string, string> data)
+        public string BuildEncryptedRequest(Dictionary<string, string> payload)
         {
-            if (data == null || !data.ContainsKey("delivery_zip"))
+            if (payload == null || !payload.ContainsKey("delivery_zip"))
                 throw new ArgumentException("Missing delivery_zip in payload");
 
-            if (!_pincodeValidator.IsServiceable(data["delivery_zip"]))
-                throw new InvalidOperationException($"Out of delivery area: {data["delivery_zip"]}");
+            if (!_pincodeValidator.IsServiceable(payload["delivery_zip"]))
+                throw new InvalidOperationException($"Out of delivery area: {payload["delivery_zip"]}");
 
-            var workingKey = _config["CCAvenue:WorkingKey"];
+            var workingKey = _options.WorkingKey;
             if (string.IsNullOrWhiteSpace(workingKey))
                 throw new InvalidOperationException("Missing WorkingKey configuration");
 
-            var plain = string.Join("&", data.Select(x => $"{x.Key}={x.Value}"));
+            // Ensure merchant_id is present
+            if (!payload.ContainsKey("merchant_id"))
+                payload["merchant_id"] = _options.MerchantId;
 
-            // Retry only makes sense for transient errors, but kept here for consistency
-            return Policy.Handle<CryptographicException>()
-                .Retry(3)
-                .Execute(() => Encrypt(plain, workingKey));
+            var plain = string.Join("&", payload.Select(x => $"{x.Key}={x.Value}"));
+            return Encrypt(plain, workingKey);
         }
 
         private string Encrypt(string plainText, string key)
         {
-            // Ensure key is valid AES length (16, 24, 32 bytes)
             var keyBytes = Encoding.UTF8.GetBytes(key);
             if (keyBytes.Length != 16 && keyBytes.Length != 24 && keyBytes.Length != 32)
                 throw new ArgumentException("WorkingKey must be 16, 24, or 32 bytes long");
@@ -54,7 +55,7 @@ namespace VirtoCommerce.Payment.CCAvenue.Services
             using var aes = Aes.Create();
             aes.Key = keyBytes;
             aes.Mode = CipherMode.CBC;
-            aes.IV = new byte[16]; // zero IV for simplicity; consider random IV for stronger security
+            aes.IV = new byte[16]; // zero IV; consider random IV for stronger security
 
             var encryptor = aes.CreateEncryptor();
             var bytes = Encoding.UTF8.GetBytes(plainText);
