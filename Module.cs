@@ -12,9 +12,12 @@ namespace VirtoCommerce.Payment.CCAvenue
 
         public void Initialize(IServiceCollection services)
         {
+            // Core services
             services.AddTransient<CCAvenuePaymentService>();
             services.AddTransient<CCAvenueResponseHandler>();
             services.AddTransient<CCAvenueTokenService>();
+
+            // Validators & processors
             services.AddSingleton<CCAvenueChecksumValidator>();
             services.AddSingleton<CCAvenueTimestampValidator>();
             services.AddSingleton<CCAvenueCurrencyService>();
@@ -22,13 +25,21 @@ namespace VirtoCommerce.Payment.CCAvenue
             services.AddSingleton<PincodeValidator>();
             services.AddSingleton<PincodeMetricsCollector>();
 
+            // Logging
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File("Logs/ccavenue.log")
+                .WriteTo.File("Logs/ccavenue.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
         }
 
-        public void PostInitialize(IApplicationBuilder appBuilder) { }
-        public void Uninstall() { }
+        public void PostInitialize(IApplicationBuilder appBuilder)
+        {
+            // Optional: configure middleware or endpoints here if needed
+        }
+
+        public void Uninstall()
+        {
+            // Optional: cleanup logic if required
+        }
     }
 }
