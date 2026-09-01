@@ -1,4 +1,4 @@
-name: .NET CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,3 +39,29 @@ jobs:
       with:
         name: coverage-report
         path: Modules/VirtoCommerce.CCAvenue/Tests/coverage.info
+
+    # 7. Azure Login
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # 8. Deploy ARM Template (azuredeploy.json)
+    - name: Deploy Azure Resources
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+        template: azuredeploy.json
+        parameters: |
+          siteName=virto-ccavenue-plan-site
+          hostingPlanName=virto-ccavenue-plan
+          sku=F1
+
+    # 9. Deploy to Azure WebApp
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: virto-ccavenue-plan-site
+        slot-name: production
+        package: .
