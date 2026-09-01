@@ -35,7 +35,7 @@ jobs:
 
     # 6. Upload Coverage Report
     - name: Upload coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: Modules/VirtoCommerce.CCAvenue/Tests/coverage.info
