@@ -20,18 +20,18 @@
 The link points to the Official VirtoCommerce ARM template published on the Azure Marketplace.
 
 When clicked, Azure Portal opens with the VirtoCommerce template pre‑loaded, prompting you to fill in parameters like:
-| Parameter              | Example Value              | Notes                                      |
+| `Parameter`              | `Example Value`              | `Notes`                                      |
 |------------------------|----------------------------|--------------------------------------------|
-| Resource Group         | virto-ccavenue-rg          | Logical container for all resources        |
-| Region                 | Central India              | Closest Azure region to Mumbai             |
-| App Service Plan       | virto-ccavenue-plan (S1)   | Standard tier compute plan                 |
-| SQL Server & Database  | Server: virto-ccavenue-sql | Globally unique server name                |
-|                        | Database: VirtoCommerce    | Default DB name                            |
-| Storage Account        | virtostorage2026           | Blob storage for media/assets              |
-| Search Service         | virto-search (Basic)       | Azure Cognitive Search for catalog indexing|
-| Redis Cache            | virto-redis (C1 Standard)  | Provides session caching                   |
-| Admin Email & Password | admin@yourdomain.com       | VirtoCommerce admin portal login           |
-|                        | Adm1n!Virto2026            | Strong default password                    |
+| `Resource Group`         | `virto-ccavenue-rg`          | `Logical container for all resources`        |
+| `Region`                 | `Central India`              | `Closest Azure region to Mumbai`             |
+| `App Service Plan`       | `virto-ccavenue-plan (S1)`   | `Standard tier compute plan`                 |
+| `SQL Server & Database`  | `Server: virto-ccavenue-sql` | `Globally unique server name`                |
+|                        | `Database: VirtoCommerce`    | `Default DB name`                            |
+| `Storage Account`        | `virtostorage2026`           | `Blob storage for media/assets`              |
+| `Search Service`         | `virto-search (Basic)`       | `Azure Cognitive Search for catalog indexing`|
+| `Redis Cache`            | `virto-redis (C1 Standard)`  | `Provides session caching`                   |
+| `Admin Email & Password` | `admin@yourdomain.com`       | `VirtoCommerce admin portal login`           |
+|                        | `Adm1n!Virto2026`            | `Strong default password`                    |
 
 
 ```
