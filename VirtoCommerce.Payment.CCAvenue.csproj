@@ -4,9 +4,8 @@
     <Version>3.800.0</Version>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
 
-<!-- NuGet metadata -->
+    <!-- NuGet metadata -->
     <PackageId>VirtoCommerce.Payment.CCAvenue</PackageId>
     <Authors>Dravasp Shroff</Authors>
     <Company>WE SKY PRINT LLP</Company>
@@ -15,6 +14,7 @@
     <PackageProjectUrl>https://github.com/virtocommerceccavenuepaymentseamless</PackageProjectUrl>
     <RepositoryUrl>https://github.com/virtocommerceccavenuepaymentseamless</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
 
   <ItemGroup>
     <!-- VirtoCommerce core packages -->
