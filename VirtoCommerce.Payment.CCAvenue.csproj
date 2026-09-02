@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- VirtoCommerce core packages -->
-    <PackageReference Include="VirtoCommerce.Payment" Version="3.800.0" />
-    <PackageReference Include="VirtoCommerce.Platform.Core" Version="3.800.0" />
-
     <!-- ASP.NET Core & JSON -->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -20,12 +16,12 @@
 
     <!-- Resilience & Networking -->
     <PackageReference Include="Polly" Version="8.0.0" />
-    <PackageReference Include="Refit" Version="7.0.0" />
+    <PackageReference Include="Refit" Version="6.3.2" />
     <PackageReference Include="RestSharp" Version="112.0.0" />
     <PackageReference Include="IdentityModel" Version="7.0.0" />
 
     <!-- Logging & Telemetry -->
-    <PackageReference Include="Serilog" Version="3.1.0" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
@@ -33,13 +29,13 @@
 
     <!-- Data & Utilities -->
     <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="20.0.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="20.0.4" />
 
     <!-- Testing -->
     <PackageReference Include="xunit" Version="2.5.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-    <PackageReference Include="Moq" Version="4.20.0" />
+    <PackageReference Include="Moq" Version="4.18.0" />
     <PackageReference Include="AutoFixture" Version="4.18.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
