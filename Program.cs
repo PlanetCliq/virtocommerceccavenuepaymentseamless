@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VirtoCommerce.Payment.CCAvenue;
+using Prometheus; // <-- add this
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,14 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseAuthorization();
 
+// 6. Map controllers and health checks
 app.MapControllers();
 app.MapHealthChecks("/health");
+
+// 7. Expose Prometheus metrics endpoint
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapMetrics(); // exposes /metrics for Prometheus scraping
+});
 
 app.Run();
