@@ -15,38 +15,61 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2. Setup .NET
+    # 2. Clean old build artifacts
+    - name: Clean build
+      run: dotnet clean --configuration Release || true
+
+    # 3. Cache NuGet packages (fresh per run)
+    - name: Cache NuGet
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: nuget-${{ runner.os }}-${{ github.run_id }}
+        restore-keys: |
+          nuget-${{ runner.os }}
+
+    # 4. Setup .NET
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    # 3. Restore dependencies
+    # 5. Validate file structure
+    - name: Validate file structure
+      run: |
+        test -d Controllers || (echo "Missing Controllers folder" && exit 1)
+        test -d Services || (echo "Missing Services folder" && exit 1)
+        test -d Views || (echo "Missing Views folder" && exit 1)
+        test -d Data || (echo "Missing Data folder" && exit 1)
+        test -d Tests || (echo "Missing Tests folder" && exit 1)
+        test -f Module.cs || (echo "Missing Module.cs" && exit 1)
+
+    # 6. Restore dependencies
     - name: Restore dependencies
       run: dotnet restore VirtoCommerce.Payment.CCAvenue.csproj
 
-    # 4. Build
+    # 7. Build
     - name: Build
       run: dotnet build VirtoCommerce.Payment.CCAvenue.csproj --no-restore --configuration Release
 
-    # 5. Run Unit Tests
+    # 8. Run Unit Tests
     - name: Run tests
       run: dotnet test Modules/VirtoCommerce.CCAvenue/Tests --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 
-    # 6. Upload Coverage Report
+    # 9. Upload Coverage Report
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: Modules/VirtoCommerce.CCAvenue/Tests/coverage.info
 
-    # 7. Azure Login
+    # 10. Azure Login
     - name: Azure Login
       uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # 8. Deploy ARM Template (azuredeploy.json)
+    # 11. Deploy ARM Template (azuredeploy.json)
     - name: Deploy Azure Resources
       uses: azure/arm-deploy@v1
       with:
@@ -58,7 +81,7 @@ jobs:
           hostingPlanName=virto-ccavenue-plan
           sku=F1
 
-    # 9. Deploy to Azure WebApp
+    # 12. Deploy to Azure WebApp
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
