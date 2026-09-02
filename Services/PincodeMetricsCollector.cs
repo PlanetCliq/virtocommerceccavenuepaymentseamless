@@ -37,10 +37,27 @@ namespace VirtoCommerce.Payment.CCAvenue.Services
                 });
         }
 
-        public void RecordApiSuccess() => _apiSuccessCounter.Inc();
-        public void RecordApiFailure() => _apiFailureCounter.Inc();
-        public void RecordFallbackSuccess() => _fallbackSuccessCounter.Inc();
-        public void RecordPincodeChecked() => _pincodeCheckedCounter.Inc();
-        public void ObserveApiLatency(double seconds) => _apiLatencyHistogram.Observe(seconds);
+        public void RecordApiSuccess()
+        {
+            _apiSuccessCounter.Inc();
+            _pincodeCheckedCounter.Inc();
+        }
+
+        public void RecordApiFailure()
+        {
+            _apiFailureCounter.Inc();
+            _pincodeCheckedCounter.Inc();
+        }
+
+        public void RecordFallbackSuccess()
+        {
+            _fallbackSuccessCounter.Inc();
+            _pincodeCheckedCounter.Inc();
+        }
+
+        public void ObserveApiLatency(double seconds)
+        {
+            _apiLatencyHistogram.Observe(seconds);
+        }
     }
 }
