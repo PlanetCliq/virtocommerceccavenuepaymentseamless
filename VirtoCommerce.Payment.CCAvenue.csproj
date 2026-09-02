@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+        <PackageReference Include="VirtoCommerce.Payment" Version="3.800.0" />
+    <PackageReference Include="VirtoCommerce.Platform.Core" Version="3.800.0" />
+
+
     <!-- ASP.NET Core & JSON -->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -25,7 +29,9 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="Prometheus.Client" Version="5.0.0" />
+
+    <!-- Prometheus metrics -->
+    <PackageReference Include="prometheus-net" Version="8.0.0" />
 
     <!-- Data & Utilities -->
     <PackageReference Include="CsvHelper" Version="30.0.1" />
