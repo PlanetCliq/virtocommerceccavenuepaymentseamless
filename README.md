@@ -633,6 +633,20 @@ Dispute Collection Officer Information Report
 `Previous Communication ref. trxn. ticket.id`
 ```
 
+[![Home](https://img.shields.io/badge/Website-virtocommerce.com-FF6B35?style=flat-square&logo=googlechrome&logoColor=white)](https://virtocommerce.com/)
+[![Interactive Demo](https://img.shields.io/badge/Live%20Demo-Try%20it%20now-22C55E?style=flat-square&logo=rocket&logoColor=white)](https://virtocommerce.com/interactive-demo)
+[![Documentation](https://img.shields.io/badge/Docs-docs.virtocommerce.org-0078D4?style=flat-square&logo=readthedocs&logoColor=white)](https://docs.virtocommerce.org/)
+[![Community](https://img.shields.io/badge/Community-virtocommerce.org-7B68EE?style=flat-square&logo=discourse&logoColor=white)](https://www.virtocommerce.org/)
+[![YouTube](https://img.shields.io/badge/YouTube-virtocommerce-FF0000?style=flat&logo=youtube&logoColor=white)](https://www.youtube.com/c/virtocommerce)
+
+![CI status](https://github.com/VirtoCommerce/vc-platform/actions/workflows/platform-ci.yml/badge.svg?branch=dev)
+[![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=alert_status&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform)
+[![Reliability rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=reliability_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform)
+[![Security rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=security_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform)
+[![Sqale rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-platform&metric=sqale_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-platform)
+
+[![Latest release](https://img.shields.io/github/release/VirtoCommerce/vc-platform.svg)](https://github.com/VirtoCommerce/vc-platform/releases/latest) [![Total downloads](https://img.shields.io/github/downloads/VirtoCommerce/vc-platform/total.svg?colorB=007ec6)](https://github.com/VirtoCommerce/vc-platform/releases) [![License](https://img.shields.io/badge/license-VC%20OSL-blue.svg)](https://virtocommerce.com/open-source-license)
+
 
 
 # VirtoCommerce CCAvenue Module
